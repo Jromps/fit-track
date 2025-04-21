@@ -21,7 +21,7 @@ A modern fitness and wellness tracking web application that helps you manage you
 
 1. Clone the repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/fit-track.git
+git clone https://github.com/Jromps/Fittrack.git
 ```
 
 2. Open `index.html` in your browser
@@ -32,4 +32,4 @@ git clone https://github.com/YOUR_USERNAME/fit-track.git
 
 ## License
 
-MIT License - feel free to use this project for personal or commercial purposes. 
+MIT License - feel free to use this project for personal or commercial purposes.
