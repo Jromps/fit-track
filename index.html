@@ -3,132 +3,110 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fitness & Nutrition Tracker</title>
+  <title>Fit track</title>
   <link rel="stylesheet" href="styles.css" />
-  <style>
-    nav {
-      display: flex;
-      justify-content: space-around;
-      gap: 5px;
-      margin-bottom: 20px;
-    }
-    nav button {
-      padding: 5px 10px;
-      font-size: 14px;
-      background-color: #5d00ff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      flex: 1;
-      max-width: 120px;
-    }
-    nav button:hover {
-      background-color: #0056b3;
-    }
-  </style>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/main.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/main.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <h1>Fitness & Nutrition Tracker</h1>
+    <header class="app-header">
+      <div class="logo-container">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MDAgNTAwIj48cGF0aCBmaWxsPSIjNDBFMEQwIiBkPSJNMjUwIDUwYzExMC4yNyAwIDIwMCA4OS43MyAyMDAgMjAwcy04OS43MyAyMDAtMjAwIDIwMFM1MCAzNjAuMjcgNTAgMjUwIDEzOS43MyA1MCAyNTAgNTB6TTI1MCA3NWMtOTYuNjMgMC0xNzUgNzguMzctMTc1IDE3NXM3OC4zNyAxNzUgMTc1IDE3NSAxNzUtNzguMzcgMTc1LTE3NVMzNDYuNjMgNzUgMjUwIDc1eiIvPjxwYXRoIGZpbGw9IiM0MEUwRDAiIGQ9Ik0yNTAgMTAwYzgyLjg0IDAgMTUwIDY3LjE2IDE1MCAxNTBzLTY3LjE2IDE1MC0xNTAgMTUwUzEwMCAzMzIuODQgMTAwIDI1MHM2Ny4xNi0xNTAgMTUwLTE1MHoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjUwIDEyNWM2OS4wMyAwIDEyNSA1NS45NyAxMjUgMTI1cy01NS45NyAxMjUtMTI1IDEyNVMxMjUgMzE5LjAzIDEyNSAyNTBzNTUuOTctMTI1IDEyNS0xMjV6Ii8+PC9zdmc+" alt="Fittrack Logo" class="logo" />
+        <h1><span class="fit">Fit</span> <span class="track">track</span></h1>
+      </div>
+    </header>
 
     <!-- Navigation Tabs -->
     <nav>
-      <button onclick="showSection('log-workout')">Log Workout</button>
-      <button onclick="showSection('log-meal')">Log Meal</button>
-      <button onclick="showSection('scheduling')">Scheduling</button>
-      <button onclick="showSection('todo-list')">To-Do List</button>
-      <button onclick="showSection('sleep-tracker')">Sleep Tracker</button>
+      <button onclick="showSection('home')">Home</button>
+      <button onclick="showSection('todo-list')">To-Do</button>
+      <button onclick="showSection('calendar')">Calendar</button>
+      <button onclick="showSection('sleep-tracker')">Sleep</button>
     </nav>
 
-    <!-- Sections -->
-    <section id="log-workout" class="form-section">
-      <h2>Log Workout</h2>
-      <input type="date" id="workout-date" />
-      <input type="number" id="steps" placeholder="Steps" />
-      <input type="number" id="calories-burned" placeholder="Calories Burned" />
-      <button onclick="logWorkout()">Add Workout</button>
+    <!-- Home Section -->
+    <section id="home" class="form-section">
+      <h2>Quick Links</h2>
+      <div class="quick-links">
+        <div class="link-card" onclick="showSection('workout-links')">
+          <h3>Workouts</h3>
+          <p>Access workout routines and track your progress</p>
+        </div>
+        <div class="link-card" onclick="showSection('todo-list')">
+          <h3>To-Do List</h3>
+          <p>Manage your daily tasks</p>
+        </div>
+        <div class="link-card" onclick="showSection('calendar')">
+          <h3>Calendar</h3>
+          <p>View and schedule events</p>
+        </div>
+        <div class="link-card" onclick="showSection('sleep-tracker')">
+          <h3>Sleep Tracker</h3>
+          <p>Monitor your sleep patterns</p>
+        </div>
+      </div>
     </section>
 
-    <section id="log-meal" class="form-section" style="display: none;">
-      <h2>Log Meal</h2>
-      <input type="text" id="meal-name" placeholder="Meal Name" />
-      <input type="number" id="meal-calories" placeholder="Calories Consumed" />
-      <input type="number" id="meal-sugars" placeholder="Sugars (g)" />
-      <button onclick="logMeal()">Add Meal</button>
+    <!-- Workout Links Section -->
+    <section id="workout-links" class="form-section" style="display: none;">
+      <h2>Workout Routines</h2>
+      <div class="workout-cards">
+        <div class="workout-card" onclick="loadWorkout('running')">
+          <h3>Running</h3>
+          <p>Cardio workout</p>
+          <span class="duration">30-60 min</span>
+        </div>
+        <div class="workout-card" onclick="loadWorkout('weightlifting')">
+          <h3>Weightlifting</h3>
+          <p>Strength training</p>
+          <span class="duration">45-60 min</span>
+        </div>
+        <div class="workout-card" onclick="loadWorkout('yoga')">
+          <h3>Yoga</h3>
+          <p>Flexibility & balance</p>
+          <span class="duration">30-45 min</span>
+        </div>
+      </div>
     </section>
 
-    <section id="scheduling" class="form-section" style="display: none;">
-      <h2>Workout & Event Scheduling</h2>
-      <input type="date" id="event-date" placeholder="Event Date" />
-      <input type="text" id="event-name" placeholder="Event Name or Workout" />
-      <textarea id="event-details" placeholder="Details"></textarea>
-      <button onclick="scheduleEvent()">Add Event</button>
-      <div id="schedule-list"></div>
-    </section>
-
+    <!-- To-Do List Section -->
     <section id="todo-list" class="form-section" style="display: none;">
       <h2>To-Do List</h2>
-      <input type="text" id="todo-item" placeholder="Task" />
-      <button onclick="addTodo()">Add Task</button>
+      <div class="todo-input">
+        <input type="text" id="todo-item" placeholder="Add a new task" />
+        <button onclick="addTodo()">Add</button>
+      </div>
       <ul id="todo-list-items"></ul>
     </section>
 
+    <!-- Calendar Section -->
+    <section id="calendar" class="form-section" style="display: none;">
+      <h2>Calendar</h2>
+      <div id="calendar-container"></div>
+      <div class="event-form">
+        <input type="text" id="event-name" placeholder="Event name" />
+        <input type="datetime-local" id="event-time" />
+        <button onclick="addEvent()">Add Event</button>
+      </div>
+    </section>
+
+    <!-- Sleep Tracker Section -->
     <section id="sleep-tracker" class="form-section" style="display: none;">
       <h2>Sleep Tracker</h2>
-      <input type="date" id="sleep-date" placeholder="Sleep Date" />
-      <input type="time" id="sleep-start" placeholder="Sleep Start Time" />
-      <input type="time" id="sleep-end" placeholder="Wake Up Time" />
-      <button onclick="logSleep()">Log Sleep</button>
+      <div class="sleep-form">
+        <input type="date" id="sleep-date" />
+        <input type="time" id="sleep-start" placeholder="Bedtime" />
+        <input type="time" id="sleep-end" placeholder="Wake up time" />
+        <button onclick="logSleep()">Log Sleep</button>
+      </div>
       <div id="sleep-log"></div>
     </section>
   </div>
 
-  <script>
-    // Function to switch between sections
-    function showSection(sectionId) {
-      const sections = document.querySelectorAll('section');
-      sections.forEach(section => section.style.display = 'none');
-      document.getElementById(sectionId).style.display = 'block';
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fitness & Nutrition Tracker</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/main.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/main.min.js"></script>
-  <style>
-    nav {
-      display: flex;
-      justify-content: space-around;
-      gap: 5px;
-      margin-bottom: 20px;
-    }
-    nav button {
-      padding: 5px 10px;
-      font-size: 14px;
-      background-color: #5d00ff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      flex: 1;
-      max-width: 120px;
-    }
-    nav button:hover {
-      background-color: #0056b3;
-    }
-    #calendar {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-  </style>
-</head>
 
 
 
