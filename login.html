@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitTrack - Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .auth-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .auth-tab.active {
+            color: #40E0D0;
+            border-bottom: 2px solid #40E0D0;
+            margin-bottom: -2px;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #40E0D0;
+            outline: none;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: #40E0D0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .auth-btn:hover {
+            background: #2c3e50;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            color: #28a745;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="logo-container" style="justify-content: center; margin-bottom: 30px;">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MDAgNTAwIj48cGF0aCBmaWxsPSIjNDBFMEQwIiBkPSJNMjUwIDUwYzExMC4yNyAwIDIwMCA4OS43MyAyMDAgMjAwcy04OS43MyAyMDAtMjAwIDIwMFM1MCAzNjAuMjcgNTAgMjUwIDEzOS43MyA1MCAyNTAgNTB6TTI1MCA3NWMtOTYuNjMgMC0xNzUgNzguMzctMTc1IDE3NXM3OC4zNyAxNzUgMTc1IDE3NSAxNzUtNzguMzcgMTc1LTE3NVMzNDYuNjMgNzUgMjUwIDc1eiIvPjxwYXRoIGZpbGw9IiM0MEUwRDAiIGQ9Ik0yNTAgMTAwYzgyLjg0IDAgMTUwIDY3LjE2IDE1MCAxNTBzLTY3LjE2IDE1MC0xNTAgMTUwUzEwMCAzMzIuODQgMTAwIDI1MHM2Ny4xNi0xNTAgMTUwLTE1MHoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjUwIDEyNWM2OS4wMyAwIDEyNSA1NS45NyAxMjUgMTI1cy01NS45NyAxMjUtMTI1IDEyNVMxMjUgMzE5LjAzIDEyNSAyNTBzNTUuOTctMTI1IDEyNS0xMjV6Ii8+PC9zdmc+" alt="Fittrack Logo" class="logo" />
+            <h1><span class="fit">Fit</span> <span class="track">track</span></h1>
+        </div>
+
+        <div class="auth-tabs">
+            <div class="auth-tab active" onclick="switchTab('login')">Login</div>
+            <div class="auth-tab" onclick="switchTab('signup')">Sign Up</div>
+        </div>
+
+        <form id="login-form" class="auth-form active">
+            <div class="form-group">
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" required>
+                <div class="error-message" id="login-error"></div>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" required>
+            </div>
+            <button type="submit" class="auth-btn">Login</button>
+        </form>
+
+        <form id="signup-form" class="auth-form">
+            <div class="form-group">
+                <label for="signup-name">Full Name</label>
+                <input type="text" id="signup-name" required>
+            </div>
+            <div class="form-group">
+                <label for="signup-email">Email</label>
+                <input type="email" id="signup-email" required>
+                <div class="error-message" id="signup-error"></div>
+            </div>
+            <div class="form-group">
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" required>
+            </div>
+            <div class="form-group">
+                <label for="signup-confirm-password">Confirm Password</label>
+                <input type="password" id="signup-confirm-password" required>
+            </div>
+            <button type="submit" class="auth-btn">Sign Up</button>
+        </form>
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            // Update active tab
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.auth-tab[onclick="switchTab('${tab}')"]`).classList.add('active');
+
+            // Show active form
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            document.getElementById(`${tab}-form`).classList.add('active');
+        }
+
+        // Handle login form submission
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Get users from localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                // Store logged in user
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                // Redirect to main app
+                window.location.href = 'index.html';
+            } else {
+                document.getElementById('login-error').textContent = 'Invalid email or password';
+                document.getElementById('login-error').style.display = 'block';
+            }
+        });
+
+        // Handle signup form submission
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+            
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                document.getElementById('signup-error').textContent = 'Passwords do not match';
+                document.getElementById('signup-error').style.display = 'block';
+                return;
+            }
+            
+            // Get existing users
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            // Check if email already exists
+            if (users.some(u => u.email === email)) {
+                document.getElementById('signup-error').textContent = 'Email already registered';
+                document.getElementById('signup-error').style.display = 'block';
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                id: Date.now(),
+                name,
+                email,
+                password,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Save user
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Store logged in user
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+            
+            // Redirect to main app
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html> 

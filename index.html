@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="styles.css" />
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/main.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/main.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -15,15 +17,68 @@
         <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MDAgNTAwIj48cGF0aCBmaWxsPSIjNDBFMEQwIiBkPSJNMjUwIDUwYzExMC4yNyAwIDIwMCA4OS43MyAyMDAgMjAwcy04OS43MyAyMDAtMjAwIDIwMFM1MCAzNjAuMjcgNTAgMjUwIDEzOS43MyA1MCAyNTAgNTB6TTI1MCA3NWMtOTYuNjMgMC0xNzUgNzguMzctMTc1IDE3NXM3OC4zNyAxNzUgMTc1IDE3NSAxNzUtNzguMzcgMTc1LTE3NVMzNDYuNjMgNzUgMjUwIDc1eiIvPjxwYXRoIGZpbGw9IiM0MEUwRDAiIGQ9Ik0yNTAgMTAwYzgyLjg0IDAgMTUwIDY3LjE2IDE1MCAxNTBzLTY3LjE2IDE1MC0xNTAgMTUwUzEwMCAzMzIuODQgMTAwIDI1MHM2Ny4xNi0xNTAgMTUwLTE1MHoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjUwIDEyNWM2OS4wMyAwIDEyNSA1NS45NyAxMjUgMTI1cy01NS45NyAxMjUtMTI1IDEyNVMxMjUgMzE5LjAzIDEyNSAyNTBzNTUuOTctMTI1IDEyNS0xMjV6Ii8+PC9zdmc+" alt="Fittrack Logo" class="logo" />
         <h1><span class="fit">Fit</span> <span class="track">track</span></h1>
       </div>
+      <div class="user-info">
+        <span id="user-name"></span>
+        <button onclick="logout()" class="logout-btn">Logout</button>
+      </div>
     </header>
 
     <!-- Navigation Tabs -->
     <nav>
-      <button onclick="showSection('home')">Home</button>
+      <button onclick="showSection('dashboard')">Dashboard</button>
+      <button onclick="showSection('wellness-hub')">Wellness</button>
       <button onclick="showSection('todo-list')">To-Do</button>
-      <button onclick="showSection('calendar')">Calendar</button>
+      <button onclick="showSection('workout-links')">Workout</button>
       <button onclick="showSection('sleep-tracker')">Sleep</button>
     </nav>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="form-section">
+      <h2>My Dashboard</h2>
+      <div class="dashboard-controls">
+        <select id="widget-select" class="widget-select">
+          <option value="">Select a widget...</option>
+          <option value="today-focus">Today's Focus</option>
+          <option value="mood-tracker">Mood Tracker</option>
+          <option value="water-tracker">Water Tracker</option>
+        </select>
+        <button onclick="addWidget()" class="add-widget-btn">Add Widget</button>
+        <button onclick="saveDashboardLayout()" class="save-layout-btn">Save Layout</button>
+      </div>
+      <div class="dashboard-grid" id="dashboard-grid">
+        <!-- Widgets will be added here dynamically -->
+      </div>
+    </section>
+
+    <!-- Wellness Hub Section -->
+    <section id="wellness-hub" class="form-section">
+      <h2>Wellness Hub</h2>
+      
+      <!-- Meditation Video -->
+      <div class="meditation-card">
+        <h3>Daily Meditation</h3>
+        <div class="video-container">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/inpok4MKVLM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <!-- Wellness Journal -->
+      <div class="wellness-journal">
+        <h3>Wellness Journal</h3>
+        <div class="journal-entry">
+          <textarea id="journal-text" placeholder="How are you feeling today? What are your wellness goals?"></textarea>
+          <div class="journal-actions">
+            <button onclick="saveJournalEntry()" class="save-journal-btn">Save Entry</button>
+          </div>
+        </div>
+        <div class="journal-history">
+          <h3>Journal History</h3>
+          <div id="journal-entries" class="journal-entries-list">
+            <!-- Journal entries will be displayed here -->
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Home Section -->
     <section id="home" class="form-section">
@@ -37,10 +92,6 @@
           <h3>To-Do List</h3>
           <p>Manage your daily tasks</p>
         </div>
-        <div class="link-card" onclick="showSection('calendar')">
-          <h3>Calendar</h3>
-          <p>View and schedule events</p>
-        </div>
         <div class="link-card" onclick="showSection('sleep-tracker')">
           <h3>Sleep Tracker</h3>
           <p>Monitor your sleep patterns</p>
@@ -49,29 +100,61 @@
     </section>
 
     <!-- Workout Links Section -->
-    <section id="workout-links" class="form-section" style="display: none;">
+    <section id="workout-links" class="form-section">
       <h2>Workout Routines</h2>
-      <div class="workout-cards">
-        <div class="workout-card" onclick="loadWorkout('running')">
-          <h3>Running</h3>
-          <p>Cardio workout</p>
-          <span class="duration">30-60 min</span>
+      <div class="workout-videos">
+        <div class="workout-video-item">
+          <h3>Full Cardio Workout</h3>
+          <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/UTHscyd__UE?si=URFOBxq9OIYrIchB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <div class="workout-description">
+            <p class="workout-type">Full body cardio</p>
+            <p class="workout-duration">Duration: 20 min</p>
+            <p class="workout-info">A dynamic cardio workout that combines high-intensity exercises to boost your heart rate and burn calories. Perfect for improving cardiovascular fitness and endurance.</p>
+          </div>
         </div>
-        <div class="workout-card" onclick="loadWorkout('weightlifting')">
-          <h3>Weightlifting</h3>
-          <p>Strength training</p>
-          <span class="duration">45-60 min</span>
+
+        <div class="workout-video-item">
+          <h3>Full Body Lifting Workout</h3>
+          <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/sinkIlViPG8?si=1gzbpwnzsDafmd9M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <div class="workout-description">
+            <p class="workout-type">Full body strength training</p>
+            <p class="workout-duration">Duration: 45-50 min</p>
+            <p class="workout-info">A complete full-body weightlifting routine that targets all major muscle groups. Includes compound movements and proper form guidance for maximum effectiveness.</p>
+          </div>
         </div>
-        <div class="workout-card" onclick="loadWorkout('yoga')">
-          <h3>Yoga</h3>
-          <p>Flexibility & balance</p>
-          <span class="duration">30-45 min</span>
+
+        <div class="workout-video-item">
+          <h3>Yoga Session</h3>
+          <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/sTANio_2E0Q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+          <div class="workout-description">
+            <p class="workout-type">Flexibility & balance</p>
+            <p class="workout-duration">Duration: 20 min</p>
+            <p class="workout-info">A calming yoga session focused on improving flexibility, balance, and mindfulness. Suitable for beginners and experienced practitioners.</p>
+          </div>
+        </div>
+
+        <div class="workout-video-item">
+          <h3>Abs Workout</h3>
+          <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/BdhqubW1GJE?si=EKmuuU4WD2c_23-k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <div class="workout-description">
+            <p class="workout-type">Core strengthening</p>
+            <p class="workout-duration">Duration: 10 min</p>
+            <p class="workout-info">An intense core workout targeting all abdominal muscles. Perfect for building a strong core and improving overall stability.</p>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- To-Do List Section -->
-    <section id="todo-list" class="form-section" style="display: none;">
+    <section id="todo-list" class="form-section">
       <h2>To-Do List</h2>
       <div class="todo-input">
         <input type="text" id="todo-item" placeholder="Add a new task" />
@@ -80,26 +163,67 @@
       <ul id="todo-list-items"></ul>
     </section>
 
-    <!-- Calendar Section -->
-    <section id="calendar" class="form-section" style="display: none;">
-      <h2>Calendar</h2>
-      <div id="calendar-container"></div>
-      <div class="event-form">
-        <input type="text" id="event-name" placeholder="Event name" />
-        <input type="datetime-local" id="event-time" />
-        <button onclick="addEvent()">Add Event</button>
+    <!-- Progress Tracker Section -->
+    <section id="progress-tracker" class="form-section" style="display: none;">
+      <h2>Progress Tracker</h2>
+      
+      <!-- Progress Input Form -->
+      <div class="progress-form">
+        <h3>Log Progress</h3>
+        <div class="form-group">
+          <label for="progress-date">Date</label>
+          <input type="date" id="progress-date" required />
+        </div>
+        <div class="form-group">
+          <label for="progress-weight">Weight (lbs)</label>
+          <input type="number" id="progress-weight" step="0.1" min="0" required />
+        </div>
+        <div class="form-group">
+          <label for="progress-notes">Notes (optional)</label>
+          <textarea id="progress-notes" placeholder="Add any notes about your progress..."></textarea>
+        </div>
+        <button onclick="logProgress()" class="add-progress-btn">Log Progress</button>
+      </div>
+
+      <!-- Progress Display -->
+      <div class="progress-display">
+        <div class="progress-charts">
+          <div class="chart-container">
+            <h3>Weight Progress</h3>
+            <canvas id="weightChart"></canvas>
+          </div>
+        </div>
+
+        <div class="progress-history">
+          <h3>Progress History</h3>
+          <div id="progress-log" class="progress-log"></div>
+        </div>
+
+        <div class="achievements">
+          <h3>Achievements</h3>
+          <div id="achievements-list"></div>
+        </div>
       </div>
     </section>
 
     <!-- Sleep Tracker Section -->
-    <section id="sleep-tracker" class="form-section" style="display: none;">
+    <section id="sleep-tracker" class="form-section">
       <h2>Sleep Tracker</h2>
       <div class="sleep-form">
-        <input type="date" id="sleep-date" />
-        <input type="time" id="sleep-start" placeholder="Bedtime" />
-        <input type="time" id="sleep-end" placeholder="Wake up time" />
+        <input type="date" id="sleep-date" required>
+        <input type="time" id="sleep-start" required>
+        <input type="time" id="sleep-end" required>
         <button onclick="logSleep()">Log Sleep</button>
       </div>
+      
+      <div class="sleep-progress">
+        <h3>Sleep Progress</h3>
+        <div class="chart-container">
+          <canvas id="sleepChart"></canvas>
+        </div>
+        <p id="sleep-progress-message">Log 7 days of sleep to see your progress chart</p>
+      </div>
+      
       <div id="sleep-log"></div>
     </section>
   </div>

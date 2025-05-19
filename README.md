@@ -1,27 +1,48 @@
-# Fit track
+# FitTrack - Personal Wellness Dashboard
 
-A modern fitness and wellness tracking web application that helps you manage your workouts, schedule, sleep, and daily tasks.
+A comprehensive wellness tracking application that helps users monitor their fitness, sleep, mood, and daily activities.
 
 ## Features
 
-- **Home Dashboard**: Quick access to all main features
-- **To-Do List**: Manage your daily tasks and goals
-- **Calendar**: Schedule and track your events and workouts
-- **Sleep Tracker**: Monitor your sleep patterns
-- **Workout Links**: Quick access to workout routines
+- **Dashboard**: Customizable widgets for tracking various wellness metrics
+- **Wellness Hub**: Meditation videos and journaling capabilities
+- **Workout Section**: Curated workout videos for different fitness levels
+- **Sleep Tracker**: Monitor sleep patterns and view progress
+- **To-Do List**: Manage daily tasks and activities
+- **Mood Tracker**: Track daily mood with visual analytics
+- **Water Intake**: Monitor daily water consumption
 
 ## Technologies Used
 
 - HTML5
 - CSS3
 - JavaScript
-- FullCalendar.js
+- Chart.js for data visualization
+- FullCalendar for calendar integration
+- Canvas Confetti for celebrations
 
-## Getting Started
+## Setup
 
-1. Clone the repository
+1. Clone the repository:
 ```bash
-git clone https://github.com/Jromps/fit-track.git
+git clone [your-repository-url]
 ```
 
-2. Open `index.html`
+2. Open `index.html` in your web browser
+
+## Usage
+
+- Add widgets to your dashboard using the widget selector
+- Track your mood using the mood tracker
+- Monitor your water intake
+- Log your sleep patterns
+- Add and manage your daily tasks
+- Access workout videos and meditation content
+
+## Contributing
+
+Feel free to submit issues and enhancement requests!
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
