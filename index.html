@@ -25,11 +25,14 @@
 
     <!-- Navigation Tabs -->
     <nav>
-      <button onclick="showSection('dashboard')">Dashboard</button>
-      <button onclick="showSection('wellness-hub')">Wellness</button>
-      <button onclick="showSection('todo-list')">To-Do</button>
-      <button onclick="showSection('workout-links')">Workout</button>
-      <button onclick="showSection('sleep-tracker')">Sleep</button>
+      <div class="nav-links">
+        <a href="#" onclick="showSection('dashboard')" class="active">Dashboard</a>
+        <a href="#" onclick="showSection('wellness-hub')">Wellness Hub</a>
+        <a href="#" onclick="showSection('workouts')">Workouts</a>
+        <a href="#" onclick="showSection('sleep-tracker')">Sleep Tracker</a>
+        <a href="#" onclick="showSection('todo-list')">To-Do List</a>
+        <button onclick="logout()" class="logout-btn">Logout</button>
+      </div>
     </nav>
 
     <!-- Dashboard Section -->
@@ -229,6 +232,28 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+    // Add this at the beginning of your script section
+    // Check if user is logged in
+    function checkAuth() {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser) {
+            window.location.href = 'login.html';
+        }
+    }
+
+    // Logout function
+    function logout() {
+        localStorage.removeItem('currentUser');
+        window.location.href = 'login.html';
+    }
+
+    // Call checkAuth when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        checkAuth();
+        // ... rest of your initialization code ...
+    });
+  </script>
 </body>
 </html>
 
