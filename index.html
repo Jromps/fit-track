@@ -12,6 +12,29 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
+  <script>
+    // Check if user is logged in
+    function checkAuth() {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (!currentUser) {
+        window.location.href = 'login.html';
+      }
+      // Display user name if logged in
+      const userNameElement = document.getElementById('user-name');
+      if (userNameElement && currentUser) {
+        userNameElement.textContent = currentUser.name;
+      }
+    }
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem('currentUser');
+      window.location.href = 'login.html';
+    }
+
+    // Check auth when page loads
+    document.addEventListener('DOMContentLoaded', checkAuth);
+  </script>
   <div class="container">
     <header class="app-header">
       <div class="logo-container">
@@ -233,28 +256,6 @@
   </div>
 
   <script src="script.js"></script>
-  <script>
-    // Add this at the beginning of your script section
-    // Check if user is logged in
-    function checkAuth() {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (!currentUser) {
-            window.location.href = 'login.html';
-        }
-    }
-
-    // Logout function
-    function logout() {
-        localStorage.removeItem('currentUser');
-        window.location.href = 'login.html';
-    }
-
-    // Call checkAuth when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-        checkAuth();
-        // ... rest of your initialization code ...
-    });
-  </script>
 </body>
 </html>
 
