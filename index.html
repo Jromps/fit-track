@@ -12,11 +12,38 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
+  <script>
+    // Check if user is logged in
+    function checkAuth() {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (!currentUser) {
+        window.location.href = 'login.html';
+      }
+      // Display user name if logged in
+      const userNameElement = document.getElementById('user-name');
+      if (userNameElement && currentUser) {
+        userNameElement.textContent = currentUser.name;
+      }
+    }
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem('currentUser');
+      window.location.href = 'login.html';
+    }
+
+    // Check auth when page loads
+    document.addEventListener('DOMContentLoaded', checkAuth);
+  </script>
   <div class="container">
     <header class="app-header">
       <div class="logo-container">
         <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MDAgNTAwIj48cGF0aCBmaWxsPSIjNDBFMEQwIiBkPSJNMjUwIDUwYzExMC4yNyAwIDIwMCA4OS43MyAyMDAgMjAwcy04OS43MyAyMDAtMjAwIDIwMFM1MCAzNjAuMjcgNTAgMjUwIDEzOS43MyA1MCAyNTAgNTB6TTI1MCA3NWMtOTYuNjMgMC0xNzUgNzguMzctMTc1IDE3NXM3OC4zNyAxNzUgMTc1IDE3NSAxNzUtNzguMzcgMTc1LTE3NVMzNDYuNjMgNzUgMjUwIDc1eiIvPjxwYXRoIGZpbGw9IiM0MEUwRDAiIGQ9Ik0yNTAgMTAwYzgyLjg0IDAgMTUwIDY3LjE2IDE1MCAxNTBzLTY3LjE2IDE1MC0xNTAgMTUwUzEwMCAzMzIuODQgMTAwIDI1MHM2Ny4xNi0xNTAgMTUwLTE1MHoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjUwIDEyNWM2OS4wMyAwIDEyNSA1NS45NyAxMjUgMTI1cy01NS45NyAxMjUtMTI1IDEyNVMxMjUgMzE5LjAzIDEyNSAyNTBzNTUuOTctMTI1IDEyNS0xMjV6Ii8+PC9zdmc+" alt="Fittrack Logo" class="logo" />
         <h1><span class="fit">Fit</span> <span class="track">track</span></h1>
+      </div>
+      <div class="user-info">
+        <span id="user-name"></span>
+        <button onclick="logout()" class="logout-btn">Logout</button>
       </div>
     </header>
 
@@ -28,6 +55,7 @@
         <a href="#" onclick="showSection('workouts')">Workouts</a>
         <a href="#" onclick="showSection('sleep-tracker')">Sleep Tracker</a>
         <a href="#" onclick="showSection('todo-list')">To-Do List</a>
+        <button onclick="logout()" class="logout-btn">Logout</button>
       </div>
     </nav>
 
